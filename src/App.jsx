@@ -6,9 +6,7 @@ import ImageCard from './components/ImageCard';
 
 function App() {
   const [images, setImages] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
-
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -30,12 +28,15 @@ function App() {
   return (
     <div className="container mx-auto">
       <ImageSearch searchText={ text => setSearchTerm(text)} />
+      {
+        !isLoading && !images.length && <h1 className="text-5xl text-center mx-auto mt-32">No images found!!! </h1>
+      }
+      {
+        isLoading && !images.length && <h1 className="text-6xl text-center mx-auto mt-32">Fetching awesomeness...</h1>
+      }
       <div className="grid grid-cols-3 gap-4">
         {
-          isLoading && !images.length && <h1 className="text-5xl text-center mx-auto mt-32">No images found </h1>
-        }
-        {
-          !isLoading && images.length ? images.map((image, index) => <ImageCard key={index.toString()} image={image} />) : <h1 className="text-6xl text-center mx-auto mt-32">Loading...</h1>
+          images.length ? images.map((image, index) => <ImageCard key={index.toString()} image={image} />): null
         }
       </div>
     </div>
